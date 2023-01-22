@@ -1,21 +1,26 @@
 import fastify from "fastify";
 import cors from "@fastify/cors";
-import { PrismaClient } from "@prisma/client";
-
+import { appRoutes } from "./lib/routes";
 const app = fastify();
-const prisma = new PrismaClient();
+
 app.register(cors);
-
-app.get("/habits", async () => {
-  const habits = await prisma.habit.findMany();
-
-  return habits;
-});
+app.register(appRoutes);
 
 app
   .listen({
-    port: 3333,
+    port: 4444,
+    host: "192.168.100.7",
   })
   .then(() => {
     console.log("server running ....");
   });
+
+// app.listen({ port: 8000, host: "192.168.100.7" }, function (err, address) {
+//   if (err) {
+//     console.log("err", err);
+//     app.log.error(err);
+//     process.exit(1);
+//   }
+//   console.log(address);
+//   app.log.info(`server listening on ${address}`);
+// });
